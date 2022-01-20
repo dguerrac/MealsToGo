@@ -1,35 +1,35 @@
 import React from 'react';
-import {
-  StatusBar, // current height of statusBar only for android
-  SafeAreaView, //only works for iOS
-} from 'react-native';
+import { FlatList } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import styled from 'styled-components/native';
 
 import { RestaurantInfoCard } from '../components/RestaurantInfoCard';
-
-const SafeAreaContainer = styled(SafeAreaView)`
-  flex: 1;
-  ${StatusBar.currentHeight && `margin-top: ${StatusBar.currentHeight}`};
-`;
+import { Spacer } from '../../../components/spacer/Spacer';
+import { SafeArea } from '../../../components/utility/SafeArea';
 
 const SearchBarContainer = styled.View`
-  padding: 20px;
+  padding: ${({ theme }) => theme.space[3]};
 `;
 
-const RestaurantsListContainer = styled.View`
-  background-color: orange;
-  flex: 1;
-  padding: 20px;
-`;
+const RestaurantList = styled(FlatList).attrs({
+  contentContainerStyle: {
+    padding: 16,
+  },
+})``;
 
 export const RestaurantsScreen = () => (
-  <SafeAreaContainer>
+  <SafeArea>
     <SearchBarContainer>
       <Searchbar />
     </SearchBarContainer>
-    <RestaurantsListContainer>
-      <RestaurantInfoCard />
-    </RestaurantsListContainer>
-  </SafeAreaContainer>
+    <RestaurantList
+      data={[{ name: 1 }, { name: 2 }, { name: 3 }, { name: 4 }, { name: 5 }, { name: 6 }, { name: 7 }, { name: 8 }]}
+      renderItem={() => (
+        <Spacer position="bottom" size="large">
+          <RestaurantInfoCard />
+        </Spacer>
+      )}
+      keyExtractor={(item) => item.name}
+    />
+  </SafeArea>
 );
